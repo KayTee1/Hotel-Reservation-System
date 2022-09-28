@@ -135,27 +135,42 @@ void newCustomer(CUSTOMER customerArray[10], int customerCount){
 }
 
 void leavingCustomer(CUSTOMER customerArray[10], int customerCount){
-    int reservationNumber;
+    int rNumber;
 
     cout << "Enter your reservation number.\n";
-    cin >> reservationNumber;
-    while(!cin || reservationNumber < 0 ||reservationNumber > 10){
+    cin >> rNumber;
+    while(!cin || rNumber < 0 ||rNumber > 10){
         cin.clear();
         cin.ignore(80,'\n');
         cout << "Please input option again \n";
-        cin >> reservationNumber;
+        cin >> rNumber;
     }   
 
+    char yesNo;
+
     cout << customerArray[0].reservationNumber << endl;
-    for (int i = 0 ;i<10;i++){
-        if(customerArray[i].reservationNumber==reservationNumber){
-            break;
+    for (int i = 1;i<10;i++){
+        
+        if(rNumber==customerArray[i].reservationNumber){
+            cout << "Your informations will be deleted\n";
+            cout << "Yes(y) / No(n)";
+            cin >>yesNo;
+            if(yesNo='y'){
+                customerArray[i].firstName=" ";
+                customerArray[i].lastName=" ";
+                customerArray[i].age=0;
+                customerArray[i].reservationNumber=0;
+                customerArray[i].roomType=0;
+                cout << "Thank you for choosing us!\n";
+                welcomeScreen(customerArray, customerCount);
+            }
+            else if(yesNo='n'){
+                cout << "Guiding you back to main menu...\n";
+                welcomeScreen(customerArray, customerCount);
+            }
         }
-        else{
-            cout << "Your reservation number cannot be found.\n";
-            welcomeScreen(customerArray,customerCount);
-        }
+        
     }
-    cout << "got out";
+   cout <<"OUT";
 }
 
