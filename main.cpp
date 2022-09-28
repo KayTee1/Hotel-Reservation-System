@@ -12,8 +12,8 @@ struct CUSTOMER{
 
 void welcomeScreen(CUSTOMER customerArray[10], int customerCount);
 void newCustomer(CUSTOMER customerArray[10], int customerCount);
-void leavingCustomer();
-int end();
+void leavingCustomer(CUSTOMER customerArray[10], int customerCount);
+
 
 
 int main(){
@@ -26,8 +26,9 @@ int main(){
 }
 
 void welcomeScreen(CUSTOMER customerArray[10], int customerCount){
-    customerCount++;
+    bool active{true};
     do{
+        customerCount++;
         //outputs and inputs for action
     int action{};
     cout << "Hello how can I help you?\n" << endl;
@@ -49,7 +50,7 @@ void welcomeScreen(CUSTOMER customerArray[10], int customerCount){
             break;
         }
         case 2:{
-            leavingCustomer();
+            leavingCustomer(customerArray,customerCount);
             break;
         }
         case 3:{
@@ -57,16 +58,16 @@ void welcomeScreen(CUSTOMER customerArray[10], int customerCount){
             break;
         }
         case 4:{
-            end();
+            active=false;
             break;
         }
         default:{
-            welcomeScreen(customerArray,customerCount);
+            
             break;
         }
 
     }
-    }while(true);
+    }while(active);
     
 
 
@@ -133,9 +134,28 @@ void newCustomer(CUSTOMER customerArray[10], int customerCount){
 
 }
 
-void leavingCustomer(){
-    cout << "work in progress\n";
+void leavingCustomer(CUSTOMER customerArray[10], int customerCount){
+    int reservationNumber;
+
+    cout << "Enter your reservation number.\n";
+    cin >> reservationNumber;
+    while(!cin || reservationNumber < 0 ||reservationNumber > 10){
+        cin.clear();
+        cin.ignore(80,'\n');
+        cout << "Please input option again \n";
+        cin >> reservationNumber;
+    }   
+
+    cout << customerArray[0].reservationNumber << endl;
+    for (int i = 0 ;i<10;i++){
+        if(customerArray[i].reservationNumber==reservationNumber){
+            break;
+        }
+        else{
+            cout << "Your reservation number cannot be found.\n";
+            welcomeScreen(customerArray,customerCount);
+        }
+    }
+    cout << "got out";
 }
-int end(){
-    return 0;
-}
+
