@@ -148,14 +148,30 @@ void leavingCustomer(CUSTOMER customerArray[10], int customerCount){
 
     char yesNo;
 
-    cout << customerArray[0].reservationNumber << endl;
+    //if reservation number not found then it will send user back to main menu in line 196
+    bool rNumberFound{true};
+
     for (int i = 1;i<10;i++){
         
         if(rNumber==customerArray[i].reservationNumber){
+            cout << "Is this you?\n";
+            cout << customerArray[i].firstName << endl;
+            customerArray[i].lastName << endl;
+            customerArray[i].age << endl;
+            customerArray[i].reservationNumber << endl;
+            customerArray[i].roomType << endl;
+
             cout << "Your informations will be deleted\n";
             cout << "Yes(y) / No(n)";
             cin >>yesNo;
-            if(yesNo='y'){
+
+            while (!cin || yesNo != 'y' && yesNo !='n'){
+                cin.clear();
+                cin.ignore(80, '\n');
+                cout << "Please input option again \n";
+                cin >> yesNo;
+            }
+            if(yesNo=='y'){
                 customerArray[i].firstName=" ";
                 customerArray[i].lastName=" ";
                 customerArray[i].age=0;
@@ -164,13 +180,21 @@ void leavingCustomer(CUSTOMER customerArray[10], int customerCount){
                 cout << "Thank you for choosing us!\n";
                 welcomeScreen(customerArray, customerCount);
             }
-            else if(yesNo='n'){
+            else if(yesNo=='n'){
                 cout << "Guiding you back to main menu...\n";
                 welcomeScreen(customerArray, customerCount);
             }
         }
+        else{
+            rNumberFound=false;
+        }
         
     }
-   cout <<"OUT";
+    if(rNumberFound==false){
+        cout << "This reservation number does not match any of our customers.\n";
+        cout << "Guiding you back to main menu...\n";
+        welcomeScreen(customerArray, customerCount);
+    }
+   
 }
 
