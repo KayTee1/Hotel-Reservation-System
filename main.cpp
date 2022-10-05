@@ -76,7 +76,7 @@ void newCustomer(CUSTOMER customerArray[10], int customerCount){
     int roomType{};
 
     cout << endl << "Welcome To My Hotel!!" << endl;
-    cout << "We have rooms for 1 and 2.\n";
+    cout << "We have rooms for 1 and rooms for 2.\n";
     cout << "(1) for 1 room, (2) for 2 room\n";
     cin >> roomType;
 
@@ -116,7 +116,7 @@ void newCustomer(CUSTOMER customerArray[10], int customerCount){
         cout << endl;
         cout << "Reservation Number: " << customerArray[customerCount].reservationNumber;
         cout << endl;
-        cout << "Reservation Number: " << customerArray[customerCount].roomType;
+        cout << "Room Type: " << customerArray[customerCount].roomType;
 
         cout << endl << "Are the details correct? (y/n)";
         cin >> yesNo;
@@ -135,7 +135,7 @@ void newCustomer(CUSTOMER customerArray[10], int customerCount){
 void leavingCustomer(CUSTOMER customerArray[10], int customerCount){
     int rNumber;
 
-    cout << "Enter your reservation number.\n";
+    cout << "\nEnter your reservation number.\n";
     cin >> rNumber;
     while(!cin || rNumber < 0 ||rNumber > 10){
         cin.clear();
@@ -152,14 +152,12 @@ void leavingCustomer(CUSTOMER customerArray[10], int customerCount){
     for (int i = 1;i<10;i++){
         
         if(rNumber==customerArray[i].reservationNumber){
-            cout << "Is this you?\n";
-            cout << customerArray[i].firstName << endl;
-            customerArray[i].lastName << endl;
-            customerArray[i].age << endl;
-            customerArray[i].reservationNumber << endl;
-            customerArray[i].roomType << endl;
+            cout << "\nIs this you?\n";
+            cout << "First Name: " << customerArray[i].firstName << endl;
+            cout << "Last Name: " << customerArray[i].lastName << endl;
+            cout << "Room Type: " << customerArray[i].roomType << endl;
 
-            cout << "Your informations will be deleted\n";
+            cout << "\nYour informations will be deleted\n";
             cout << "Yes(y) / No(n)";
             cin >>yesNo;
 
