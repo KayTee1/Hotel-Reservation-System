@@ -16,14 +16,18 @@ void leavingCustomer(CUSTOMER customerArray[10], int customerCount);
 
 int main(){
 
+    //initializing essential variables
     CUSTOMER customerArray[10];
     int customerCount{};
+    //program start
     welcomeScreen(customerArray, customerCount);
     
     return 0;
 }
 
 void welcomeScreen(CUSTOMER customerArray[10], int customerCount){
+    
+    //foreverloop with bool until "active"=false
     bool active{true};
     do{
         customerCount++;
@@ -99,9 +103,8 @@ void newCustomer(CUSTOMER customerArray[10], int customerCount){
         cout << "Enter your age.\n";
         cin >> customerArray[customerCount].age;
 
-
         //this block of code prevents recurring reservation numbers
-        bool hasAlready{false};
+        bool hasAlready{true};
         int randomGeneratedReservationNumber{};
         srand(time(0));
 
@@ -109,20 +112,23 @@ void newCustomer(CUSTOMER customerArray[10], int customerCount){
             randomGeneratedReservationNumber=(rand() % 5)+1;
         }
         else if(customerCount>1){
+            
             do{
-                for(int i =0;i<10;i++){
-                    if(customerArray[i].reservationNumber==randomGeneratedReservationNumber){
-                    hasAlready=true;
-                    }
-                    else{
-                        randomGeneratedReservationNumber=(rand() % 5)+1;
+                
+                randomGeneratedReservationNumber=(rand() % 5)+1;
+                for(int i =0;i<customerCount;i++){
+                    if(customerArray[i].reservationNumber!=randomGeneratedReservationNumber){
                         hasAlready=false;
-                        
+                        cout << "customer resnum " << customerArray[i].reservationNumber<<endl;
+                        cout << "random resnum "<<randomGeneratedReservationNumber<<endl;
+                        break;
                     }
                 }
-            }while(hasAlready=false);
+                if(hasAlready==false){
+                    break;
+                }
+            }while(hasAlready=true);
         }
-       
        
 
 
