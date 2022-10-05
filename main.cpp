@@ -14,8 +14,6 @@ void welcomeScreen(CUSTOMER customerArray[10], int customerCount);
 void newCustomer(CUSTOMER customerArray[10], int customerCount);
 void leavingCustomer(CUSTOMER customerArray[10], int customerCount);
 
-
-
 int main(){
 
     CUSTOMER customerArray[10];
