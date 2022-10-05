@@ -99,9 +99,37 @@ void newCustomer(CUSTOMER customerArray[10], int customerCount){
         cout << "Enter your age.\n";
         cin >> customerArray[customerCount].age;
 
+
+        //this block of code prevents recurring reservation numbers
+        bool hasAlready{false};
         int randomGeneratedReservationNumber{};
         srand(time(0));
-        randomGeneratedReservationNumber=(rand() % 10)+1;
+
+        if(customerCount==1){
+            randomGeneratedReservationNumber=(rand() % 5)+1;
+        }
+        else if(customerCount>1){
+            do{
+                for(int i =0;i<10;i++){
+                    if(customerArray[i].reservationNumber==randomGeneratedReservationNumber){
+                    hasAlready=true;
+                    }
+                    else{
+                        randomGeneratedReservationNumber=(rand() % 5)+1;
+                        hasAlready=false;
+                        
+                    }
+                }
+            }while(hasAlready=false);
+        }
+       
+       
+
+
+        
+
+
+
 
         customerArray[customerCount].reservationNumber=randomGeneratedReservationNumber;
         cout << "Your reservation number is " << customerArray[customerCount].reservationNumber << endl;
