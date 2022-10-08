@@ -8,6 +8,7 @@ struct CUSTOMER{
     int age{};
     int reservationNumber{};
     int roomType{};
+    int nights{};
 };
 
 void welcomeScreen(CUSTOMER customerArray[10], int customerCount);
@@ -77,25 +78,44 @@ void welcomeScreen(CUSTOMER customerArray[10], int customerCount){
 
 void newCustomer(CUSTOMER customerArray[10], int customerCount){
 
-    int roomType{};
-
-    cout << endl << "Welcome To My Hotel!!" << endl;
-    cout << "We have rooms for 1 and rooms for 2.\n";
-    cout << "(1) for 1 room, (2) for 2 room\n";
-    cin >> roomType;
-
-    //input validation
-    while(!cin || roomType<1||roomType > 2){
-        cin.clear();
-        cin.ignore(80,'\n');
-        cout << "Please input option again \n";
-        cin >> roomType;
-    }
-    customerArray[customerCount].roomType=roomType;
-
+    
     char yesNo{};
+    int roomType{};
+    int nights{};
 
     do{
+        
+
+        cout << endl << "Welcome To My Hotel!!" << endl;
+        cout << "We have rooms for 1 and rooms for 2.\n";
+        cout << "(1) for 1 room, (2) for 2 room\n";
+        cin >> roomType;
+
+        //input validation
+        while(!cin || roomType<1||roomType > 2){
+            cin.clear();
+            cin.ignore(80,'\n');
+            cout << "Please input option again \n";
+            cin >> roomType;
+        }
+        customerArray[customerCount].roomType=roomType;
+
+        
+
+        cout << "How many nights will you be staying?\n";
+        cin >> nights;
+
+        //input validation
+        while(!cin || nights<1||nights > 7){
+            cin.clear();
+            cin.ignore(80,'\n');
+            cout << "Please input option again \n";
+            cin >> nights;
+        }
+
+        customerArray[customerCount].nights=nights;
+
+
         cout << "Enter your first name.\n";
         cin >> customerArray[customerCount].firstName;
         cout << "Enter your last name.\n";
@@ -126,7 +146,8 @@ void newCustomer(CUSTOMER customerArray[10], int customerCount){
                 }
             }while(hasAlready=true);
         }
-       
+       //
+
         customerArray[customerCount].reservationNumber=randomReservationNumber;
         cout << "Your reservation number is " << customerArray[customerCount].reservationNumber << endl;
 
@@ -141,6 +162,8 @@ void newCustomer(CUSTOMER customerArray[10], int customerCount){
         cout << "Reservation Number: " << customerArray[customerCount].reservationNumber;
         cout << endl;
         cout << "Room Type: " << customerArray[customerCount].roomType;
+        cout << endl;
+        cout << "Nights staying: " << customerArray[customerCount].nights;
 
         cout << endl << "Are the details correct? (y/n)";
         cin >> yesNo;
@@ -152,7 +175,26 @@ void newCustomer(CUSTOMER customerArray[10], int customerCount){
         }
     }while(yesNo !='y');
     
+//prices section
 
+    /*
+    single room 50 double room 100
+    multiplied by nights stayed
+    */
+
+    int roomPrice = roomType*50;
+    int price = roomPrice * nights;
+    int pay{};
+
+
+    cout << "This stay will cost you: " << price << endl;
+    //input validation
+    do{
+        cout << "Enter this value: " << price << endl;
+        cin >> pay;
+    }while(pay!=price);
+    
+    
 
 }
 
