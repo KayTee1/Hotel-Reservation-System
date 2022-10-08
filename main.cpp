@@ -105,22 +105,19 @@ void newCustomer(CUSTOMER customerArray[10], int customerCount){
 
         //this block of code prevents recurring reservation numbers
         bool hasAlready{true};
-        int randomGeneratedReservationNumber{};
-        srand(time(0));
-
+        int randomReservationNumber{};
+        
         if(customerCount==1){
-            randomGeneratedReservationNumber=(rand() % 5)+1;
+            srand(time(0));
+            randomReservationNumber=(rand() % 20)+1;
         }
-        else if(customerCount>1){
-            
+        else if(customerCount>=2){
             do{
-                
-                randomGeneratedReservationNumber=(rand() % 5)+1;
-                for(int i =0;i<customerCount;i++){
-                    if(customerArray[i].reservationNumber!=randomGeneratedReservationNumber){
+                srand(time(0));
+                randomReservationNumber=(rand() % 20)+1;
+                for(int i =0;i<customerCount+1;i++){
+                    if(customerArray[i].reservationNumber!=randomReservationNumber){
                         hasAlready=false;
-                        cout << "customer resnum " << customerArray[i].reservationNumber<<endl;
-                        cout << "random resnum "<<randomGeneratedReservationNumber<<endl;
                         break;
                     }
                 }
@@ -130,14 +127,7 @@ void newCustomer(CUSTOMER customerArray[10], int customerCount){
             }while(hasAlready=true);
         }
        
-
-
-        
-
-
-
-
-        customerArray[customerCount].reservationNumber=randomGeneratedReservationNumber;
+        customerArray[customerCount].reservationNumber=randomReservationNumber;
         cout << "Your reservation number is " << customerArray[customerCount].reservationNumber << endl;
 
         cout << "Checking your details.\n";
@@ -171,7 +161,7 @@ void leavingCustomer(CUSTOMER customerArray[10], int customerCount){
 
     cout << "\nEnter your reservation number.\n";
     cin >> rNumber;
-    while(!cin || rNumber < 0 ||rNumber > 10){
+    while(!cin || rNumber < 0 ||rNumber > 25){
         cin.clear();
         cin.ignore(80,'\n');
         cout << "Please input option again \n";
