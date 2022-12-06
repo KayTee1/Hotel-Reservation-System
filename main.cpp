@@ -17,10 +17,12 @@ void welcomeScreen(CUSTOMER customerArray[10], int customerCount);
 void newCustomer(CUSTOMER customerArray[10], int customerCount);
 void leavingCustomer(CUSTOMER customerArray[10], int customerCount);
 
+const int MAX_CUSTOMERS=50;
+
 int main(){
 
     //initializing essential variables
-    CUSTOMER customerArray[10];
+    CUSTOMER customerArray[MAX_CUSTOMERS];
     int customerCount{};
     //main function start
     welcomeScreen(customerArray, customerCount);
@@ -28,7 +30,7 @@ int main(){
     return 0;
 }
 
-void welcomeScreen(CUSTOMER customerArray[10], int customerCount){
+void welcomeScreen(CUSTOMER customerArray[MAX_CUSTOMERS], int customerCount){
     
     //forever loop with "active" -bool=false
     bool active{true};
@@ -82,7 +84,7 @@ void welcomeScreen(CUSTOMER customerArray[10], int customerCount){
     
 }
 
-void newCustomer(CUSTOMER customerArray[10], int customerCount){
+void newCustomer(CUSTOMER customerArray[MAX_CUSTOMERS], int customerCount){
     
     //initializing essential variables for newCustomer function
     char yesNo{};
@@ -123,40 +125,18 @@ void newCustomer(CUSTOMER customerArray[10], int customerCount){
 
         customerArray[customerCount].nights=nights;
 
-
         cout << "Enter your first name.\n";
         cin >> customerArray[customerCount].firstName;
         cout << "Enter your last name.\n";
         cin >> customerArray[customerCount].lastName;
         cout << "Enter your age.\n";
         cin >> customerArray[customerCount].age;
-
-        //this block of code prevents recurring reservation numbers
-        bool hasAlready{true};
+    
         int randomReservationNumber{};
-        
-        //the first customer doesnt have a risk of getting a reserved number
-        if(customerCount==1){
-            srand(time(0));
-            randomReservationNumber=(rand() % 5)+1;
-        }
-        else if(customerCount>=2){
-            do{
-                srand(time(0));
-                randomReservationNumber=(rand() % 5)+1;
-                for(int i = 1; i<customerCount; i++){
-                    if(customerArray[i].reservationNumber!=randomReservationNumber){
-                        hasAlready=false;
-                        break;
-                    }
-                }
-                if(hasAlready==false){
-                    break;
-                }
-            }while(hasAlready=true);
-        }
-       //
-5 2 3 3
+        srand(time(0));
+
+        randomReservationNumber=(rand() % MAX_CUSTOMERS)+1;
+
         customerArray[customerCount].reservationNumber=randomReservationNumber;
         cout << "Your reservation number is " << customerArray[customerCount].reservationNumber << endl;
 
