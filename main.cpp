@@ -2,7 +2,6 @@
 #include <ctime>
 using namespace std;
 
-
 //customer struct
 struct CUSTOMER{
     string firstName{};
@@ -193,7 +192,7 @@ void leavingCustomer(CUSTOMER customerArray[10], int customerCount){
 
     cout << "\nEnter your reservation number.\n";
     cin >> rNumber;
-    while(!cin || rNumber < 0 ||rNumber > 25){
+    while(!cin || rNumber < 0 ||rNumber > MAX_CUSTOMERS){
         cin.clear();
         cin.ignore(80,'\n');
         cout << "Please input option again \n";
@@ -206,7 +205,7 @@ void leavingCustomer(CUSTOMER customerArray[10], int customerCount){
     bool rNumberFound{true};
 
     //for loop to go through all customer reservation numbers
-    for (int i = 1;i<10;i++){
+    for (int i = 1;i<MAX_CUSTOMERS;i++){
         
         //if a match is found, the program will check if it is you
         if(rNumber==customerArray[i].reservationNumber){
