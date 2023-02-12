@@ -1,6 +1,9 @@
 #include <iostream>
 #include <ctime>
+
 using namespace std;
+
+const int MAX_CUSTOMERS = 50;
 
 //customer struct
 struct CUSTOMER{
@@ -12,45 +15,28 @@ struct CUSTOMER{
     int nights{};
 };
 
-void welcomeScreen(CUSTOMER customerArray[10], int customerCount);
-void newCustomer(CUSTOMER customerArray[10], int customerCount);
-void leavingCustomer(CUSTOMER customerArray[10], int customerCount);
+void newCustomer(CUSTOMER customerArray[MAX_CUSTOMERS], int customerCount);
+void leavingCustomer(CUSTOMER customerArray[MAX_CUSTOMERS], int customerCount);
 
-const int MAX_CUSTOMERS=50;
+int inputValidation(int target, int x, int y);
 
 int main(){
 
-    //initializing essential variables
     CUSTOMER customerArray[MAX_CUSTOMERS];
-    int customerCount{};
-    //main function start
-    welcomeScreen(customerArray, customerCount);
-    
-    return 0;
-}
+    int customerCount{-1};
+    bool isActive{true};
 
-void welcomeScreen(CUSTOMER customerArray[MAX_CUSTOMERS], int customerCount){
-    
-    //forever loop with "active" -bool=false
-    bool active{true};
-
-    do{
-        //counting total customers
+    while(isActive){
+        //counting customer count from 0
         customerCount++;
 
         //outputs and inputs for action
         int action{};
         cout << "\nHello how can I help you?\n" << endl;
         cout << "Check in (1) \nCheck out (2)\nExit(3)\nTerminate program(4)\n";
-        cin >> action;
 
-        //input validation   
-        while(!cin || action < 1 || action > 4){
-            cin.clear();
-            cin.ignore(80, '\n');
-            cout << "Please input option again \n";
-            cin >> action;
-        }
+        //input validation
+        action = inputValidation(action, 1, 4);
 
         //customer selecting what to do
         switch(action)
@@ -67,60 +53,58 @@ void welcomeScreen(CUSTOMER customerArray[MAX_CUSTOMERS], int customerCount){
             }
             case 3:{
                 //back to main menu
-                welcomeScreen(customerArray,customerCount);
                 break;
             }
             case 4:{
-                active=false;
+                isActive=false;
                 break;
             }
             default:{
                 break;
             }
         }
+    }
 
-    }while(active);
-    
+
+}
+
+int inputValidation(int target, int x, int y){
+
+    cin >> target;
+
+    if(target < x || target > y){
+        cin.clear();
+        cin.ignore(80, '\n');
+        cout << "Invalid input. Please enter a number between " << x << " and " << y << endl;
+        cin >> target;
+    }
+
+    return target;
 }
 
 void newCustomer(CUSTOMER customerArray[MAX_CUSTOMERS], int customerCount){
-    
     //initializing essential variables for newCustomer function
-    char yesNo{};
+    int yesNo{};
     int roomType{};
     int nights{};
 
     do{
-        
+
         cout << endl << "Welcome To My Hotel!!" << endl;
         cout << "We have rooms for 1 and rooms for 2.\n";
-        cout << "(1) for 1 room, (2) for 2 room, (3) for exit\n";
-        cin >> roomType;
+        cout << "(1) for 1 room, (2) for 2 room\n";
 
         //input validation
-        while(!cin || roomType<1||roomType > 3){
-            cin.clear();
-            cin.ignore(80,'\n');
-            cout << "Please input option again \n";
-            cin >> roomType;
-        }
-        if(roomType==3){
-            welcomeScreen(customerArray,customerCount);
-        }
+        roomType = inputValidation(roomType, 1, 2);
+
         customerArray[customerCount].roomType=roomType;
 
-        
 
         cout << "How many nights will you be staying?\n";
-        cin >> nights;
 
         //input validation
-        while(!cin || nights<1||nights > 7){
-            cin.clear();
-            cin.ignore(80,'\n');
-            cout << "Please input option again \n";
-            cin >> nights;
-        }
+        nights = inputValidation(nights, 1, 7);
+
 
         customerArray[customerCount].nights=nights;
 
@@ -129,8 +113,10 @@ void newCustomer(CUSTOMER customerArray[MAX_CUSTOMERS], int customerCount){
         cout << "Enter your last name.\n";
         cin >> customerArray[customerCount].lastName;
         cout << "Enter your age.\n";
-        cin >> customerArray[customerCount].age;
-    
+        //input validation
+
+        customerArray[customerCount].age = inputValidation(customerArray[customerCount].age, 16, 100);
+
         int randomReservationNumber{};
         srand(time(0));
 
@@ -154,16 +140,12 @@ void newCustomer(CUSTOMER customerArray[MAX_CUSTOMERS], int customerCount){
         cout << "Nights staying: " << customerArray[customerCount].nights;
 
         //yesNo char to confirm if the details are correct
-        cout << endl << "Are the details correct? (y/n)";
-        cin >> yesNo;
-        while (!cin || yesNo != 'y' && yesNo !='n'){
-            cin.clear();
-            cin.ignore(80, '\n');
-            cout << "Please input option again \n";
-            cin >> yesNo;
-        }
-    }while(yesNo !='y');
-    
+        cout << endl << "Are the details correct? yes(1) no(2)";
+        //input validation
+        yesNo = inputValidation(yesNo, 1, 2);
+
+    }while(yesNo !=1);
+
     //prices section
     /*
     single room 50 double room 100
@@ -177,36 +159,30 @@ void newCustomer(CUSTOMER customerArray[MAX_CUSTOMERS], int customerCount){
 
     cout << "This stay will cost you: " << price << endl;
     //input validation
+
     do{
         cout << "Enter this value: " << price << endl;
         cin >> pay;
     }while(pay!=price);
-    
-    cout << "\nThank You, Enjoy your Stay!\n";
-    
 
+    cout << "\nThank You, Enjoy your Stay!\n";
 }
 
-void leavingCustomer(CUSTOMER customerArray[10], int customerCount){
+void leavingCustomer(CUSTOMER customerArray[MAX_CUSTOMERS], int customerCount){
     int rNumber;
 
     cout << "\nEnter your reservation number.\n";
-    cin >> rNumber;
-    while(!cin || rNumber < 0 ||rNumber > MAX_CUSTOMERS){
-        cin.clear();
-        cin.ignore(80,'\n');
-        cout << "Please input option again \n";
-        cin >> rNumber;
-    }   
+    //input validation
+    rNumber = inputValidation(rNumber, 0, MAX_CUSTOMERS);
 
-    char yesNo;
+    int yesNo;
 
     //if reservation number not found then it will send user back to main menu
     bool rNumberFound{true};
 
     //for loop to go through all customer reservation numbers
-    for (int i = 1;i<MAX_CUSTOMERS;i++){
-        
+    for (int i = 0;i<MAX_CUSTOMERS;i++){
+
         //if a match is found, the program will check if it is you
         if(rNumber==customerArray[i].reservationNumber){
             cout << "\nIs this you?\n";
@@ -215,43 +191,35 @@ void leavingCustomer(CUSTOMER customerArray[10], int customerCount){
             cout << "Room Type: " << customerArray[i].roomType << endl;
 
             cout << "\nYour informations will be deleted\n";
-            cout << "Yes(y) / No(n)";
-            cin >>yesNo;
-
+            cout << "Yes(1) / No(2)";
             //input validation
-            while (!cin || yesNo != 'y' && yesNo !='n'){
-                cin.clear();
-                cin.ignore(80, '\n');
-                cout << "Please input option again \n";
-                cin >> yesNo;
-            }
+            yesNo = inputValidation(yesNo, 1, 2);
+
             //if the right person is found, the program will delete the persons information
-            if(yesNo=='y'){
+            if(yesNo == 1){
                 customerArray[i].firstName=" ";
                 customerArray[i].lastName=" ";
                 customerArray[i].age=0;
                 customerArray[i].reservationNumber=0;
                 customerArray[i].roomType=0;
                 cout << "Thank you for choosing us!\n";
-                welcomeScreen(customerArray, customerCount);
+                break;
             }
             //if the wrong person was found, the program will send the user back to the main menu
-            else if(yesNo=='n'){
+            else if(yesNo == 2){
                 cout << "Guiding you back to main menu...\n";
-                welcomeScreen(customerArray, customerCount);
+                break;
             }
         }
         //if the reservation number is not found at all, rNumberFound = false
         else{
             rNumberFound=false;
         }
-        
+
     }
     //the program will send the user back to the main menu if reservation number is not found
     if(rNumberFound==false){
         cout << "This reservation number does not match any of our customers.\n";
         cout << "Guiding you back to main menu...\n";
-        welcomeScreen(customerArray, customerCount);
     }
-   
 }
